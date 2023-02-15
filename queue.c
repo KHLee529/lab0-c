@@ -168,15 +168,52 @@ bool q_delete_dup(struct list_head *head)
 void q_swap(struct list_head *head)
 {
     // https://leetcode.com/problems/swap-nodes-in-pairs/
+    if (!head || list_empty(head))
+        return;
+    struct list_head *node, *safe, *swap = NULL;
+    list_for_each_safe (node, safe, head) {
+        if (swap) {
+            list_add(swap, node);
+            swap = NULL;
+        } else if (safe != head) {
+            swap = node;
+            list_del_init(node);
+        }
+    }
 }
 
 /* Reverse elements in queue */
-void q_reverse(struct list_head *head) {}
+void q_reverse(struct list_head *head)
+{
+    if (!head || list_empty(head))
+        return;
+    struct list_head *node, *safe;
+    list_for_each_safe (node, safe, head) {
+        list_del_init(node);
+        list_add(node, head);
+    }
+}
 
 /* Reverse the nodes of the list k at a time */
 void q_reverseK(struct list_head *head, int k)
 {
     // https://leetcode.com/problems/reverse-nodes-in-k-group/
+    if (!head || list_empty(head) || k < 2)
+        return;
+    LIST_HEAD(tmp);
+    struct list_head *cur, *safe, *sub_st = head;
+    int cnt = 0;
+    list_for_each_safe (cur, safe, head) {
+        cnt += 1;
+        if (cnt == k) {
+            list_cut_position(&tmp, sub_st, cur);
+            q_reverse(&tmp);
+            list_splice_init(&tmp, sub_st);
+            cnt = 0;
+            sub_st = safe->prev;
+        }
+    }
+}
 }
 
 /* Sort elements of queue in ascending order */
