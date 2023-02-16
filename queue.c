@@ -39,10 +39,12 @@ static inline element_t *new_elem(char *s)
     if (!entry)
         return NULL;
     size_t cplen = strlen(s);
+    /* check if cplen reach the maximum of uint */
     if (cplen > cplen + 1) {
         free(entry);
         return NULL;
     }
+    cplen += 1;
     entry->value = malloc(cplen * sizeof(char));
     if (entry->value) {
         memcpy(entry->value, s, cplen);
