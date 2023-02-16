@@ -43,7 +43,7 @@ static inline element_t *new_elem(char *s)
         free(entry);
         return NULL;
     }
-    entry->value = (char *) malloc(cplen * sizeof(char));
+    entry->value = malloc(cplen * sizeof(char));
     if (entry->value) {
         memcpy(entry->value, s, cplen);
         INIT_LIST_HEAD(&entry->list);
@@ -189,8 +189,7 @@ void q_reverse(struct list_head *head)
         return;
     struct list_head *node, *safe;
     list_for_each_safe (node, safe, head) {
-        list_del_init(node);
-        list_add(node, head);
+        list_move(node, head);
     }
 }
 
