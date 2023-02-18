@@ -4,6 +4,10 @@ CFLAGS = -O1 -g -Wall -Werror -Idudect -I.
 # Emit a warning should any variable-length array be found within the code.
 CFLAGS += -Wvla
 
+ifdef USE_LINUX_SORT
+	CFLAGS += -DUSE_LINUX_SORT
+endif 
+
 GIT_HOOKS := .git/hooks/applied
 DUT_DIR := dudect
 all: $(GIT_HOOKS) qtest
