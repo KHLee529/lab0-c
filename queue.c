@@ -274,8 +274,7 @@ __attribute__((nonnull(2, 3))) void list_sort(void *priv,
     /* The final merge, rebuilding prev links */
     merge_final(priv, cmp, head, pending, list);
 }
-#endif
-
+#endif /* USE_LINUX_SORT */
 
 /* Create an empty queue */
 struct list_head *q_new()
