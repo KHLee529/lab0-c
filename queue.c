@@ -289,6 +289,8 @@ struct list_head *q_new()
 /* Free all storage used by queue */
 void q_free(struct list_head *l)
 {
+    if (!l)
+        return;
     struct list_head *node, *safe;
     list_for_each_safe (node, safe, l) {
         element_t *entry = list_entry(node, element_t, list);
